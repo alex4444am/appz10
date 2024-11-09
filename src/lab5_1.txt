@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery exercises</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .moving-box {
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+            position: relative;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h2>Удаление элементов &lt;br&gt;</h2>
+        <button id="deleteBrBtn">Удалить все переходы строк</button>
+        <div>
+            <p>Додати на сторінку форму, що містить декілька елементів форми, при<br>
+                цьому при виборі певного значення в одному елементі (див. приклади):<br>
+                 відображати інший елемент (для парних варіантів),<br>
+                 робити недоступним інший елемент (для непарних варіантів).<br></p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Анимация блока</h2>
+        <button id="triggerAnimation">Запустить анимацию</button>
+        <div class="moving-box" id="box"></div>
+    </section>
+
+    <section>
+        <h2>Форма с зависимостями</h2>
+        <form>
+            <label for="selectChoice">Выберите действие:</label>
+            <select id="selectChoice">
+                <option value="disable-text">Заблокировать текст</option>
+                <option value="disable-checkbox">Заблокировать чекбокс</option>
+            </select>
+            
+            <div>
+                <label for="textInputField">Поле для текста:</label>
+                <input type="text" id="textInputField">
+            </div>
+            
+            <div>
+                <label for="selectionCheck">Вариант:</label>
+                <input type="checkbox" id="selectionCheck">
+            </div>
+        </form>
+    </section>
+
+    <script>
+        $(document).ready(function() {
+            $('#deleteBrBtn').on('click', function() {
+                $('br').each(function() {
+                    $(this).remove();
+                });
+            });
+
+            $('#triggerAnimation').on('click', function() {
+                const box = $('#box');
+
+                box.animate({ top: '150px' }, {
+                    duration: 700,
+                    step: function(now, fx) {
+                        if (fx.prop === 'top') {
+                            const scale = 1 - now / 300;
+                            $(this).css({
+                                transform: `scale(${scale})`
+                            });
+                        }
+                    },
+                    complete: function() {
+                        $(this).css('background', 'blue');
+                        $(this).animate({ top: '0px' }, {
+                            duration: 700,
+                            complete: function() {
+                                $(this).animate({ width: '30px', height: '30px' }, {
+                                    duration: 500,
+                                    step: function() {
+                                        $(this).css({
+                                            background: 'black'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+            function updateInputAccessibility() {
+                let selectedOption = $('#selectChoice').val();
+
+                $('#textInputField').prop('readonly', selectedOption === 'disable-text');
+                $('#selectionCheck').prop('disabled', selectedOption === 'disable-checkbox');
+            }
+
+            updateInputAccessibility();
+
+            $('#selectChoice').on('input', function() {
+                updateInputAccessibility();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Автобусний розклад</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #0055a5;
+        }
+        .controls {
+            margin-bottom: 15px;
+        }
+        #scheduleDisplay, #filteredDisplay, #sortedDisplay {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Розклад автобусних рейсів</h1>
+
+    <div class="controls">
+        <label for="selectedDate">Оберіть дату:</label>
+        <input type="date" id="selectedDate">
+        <button onclick="filterSchedule()">Фільтрувати</button>
+        <button onclick="sortScheduleByPrice()">Сортувати за ціною</button>
+    </div>
+
+    <section id="scheduleDisplay">
+        <h2>Повний розклад:</h2>
+    </section>
+
+    <section id="filteredDisplay">
+        <h2>Розклад для вибраної дати:</h2>
+    </section>
+
+    <section id="sortedDisplay">
+        <h2>Розклад, відсортований за ціною:</h2>
+    </section>
+
+    <script src="src/script_buses.js"></script>
+</body>
+</html>
+document.addEventListener("DOMContentLoaded", () => {
+    loadSchedule();
+});
+
+function loadSchedule() {
+    fetch("buses.xml")
+        .then(response => response.text())
+        .then(data => {
+            const xmlDoc = parseXMLData(data);
+            fetch("style.xsl")
+                .then(resp => resp.text())
+                .then(xslText => {
+                    const xslDoc = parseXMLData(xslText);
+                    const displayContent = applyXSLTTransformation(xmlDoc, xslDoc);
+                    document.getElementById("scheduleDisplay").appendChild(displayContent);
+                });
+        });
+}
+
+function parseXMLData(xmlString) {
+    return new DOMParser().parseFromString(xmlString, "text/xml");
+}
+
+function applyXSLTTransformation(xml, xsl) {
+    const xsltProc = new XSLTProcessor();
+    xsltProc.importStylesheet(xsl);
+    return xsltProc.transformToFragment(xml, document);
+}
+
+function filterSchedule() {
+    const chosenDate = document.getElementById("selectedDate").value;
+    fetch("buses.xml")
+        .then(response => response.text())
+        .then(xmlText => {
+            const xmlDoc = parseXMLData(xmlText);
+            const matchedRoutes = Array.from(xmlDoc.getElementsByTagName("route")).filter(route => {
+                const depDate = route.getElementsByTagName("date")[0].textContent;
+                return chosenDate === "" || depDate === chosenDate;
+            });
+            
+            const filteredXML = createFilteredXMLStructure(matchedRoutes);
+            fetch("style.xsl")
+                .then(resp => resp.text())
+                .then(xslText => {
+                    const xslDoc = parseXMLData(xslText);
+                    const filteredContent = applyXSLTTransformation(filteredXML, xslDoc);
+                    const displayArea = document.getElementById("filteredDisplay");
+                    displayArea.innerHTML = "";
+                    displayArea.appendChild(filteredContent);
+                });
+        });
+}
+
+function createFilteredXMLStructure(routes) {
+    const xmlContent = `<bus_schedule>${routes.map(route => new XMLSerializer().serializeToString(route)).join('')}</bus_schedule>`;
+    return parseXMLData(xmlContent);
+}
+
+function sortScheduleByPrice() {
+    fetch("buses.xml")
+        .then(response => response.text())
+        .then(xmlText => {
+            const xmlDoc = parseXMLData(xmlText);
+            const routesList = Array.from(xmlDoc.getElementsByTagName("route"));
+            routesList.sort((a, b) => {
+                const priceA = parseFloat(a.getElementsByTagName("price")[0].textContent);
+                const priceB = parseFloat(b.getElementsByTagName("price")[0].textContent);
+                return priceA - priceB;
+            });
+            
+            const sortedXML = createFilteredXMLStructure(routesList);
+            fetch("style.xsl")
+                .then(response => response.text())
+                .then(xslText => {
+                    const xslDoc = parseXMLData(xslText);
+                    const sortedContent = applyXSLTTransformation(sortedXML, xslDoc);
+                    const sortedDisplayArea = document.getElementById("sortedDisplay");
+                    sortedDisplayArea.innerHTML = "";
+                    sortedDisplayArea.appendChild(sortedContent);
+                });
+        });
+}
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="html" indent="yes"/>
+    
+    <xsl:template match="/">
+        <html>
+            <head>
+                <title>Розклад автобусів</title>
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        padding: 8px;
+                        border: 1px solid #ddd;
+                        text-align: center;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Розклад автобусів</h1>
+                <table>
+                    <tr>
+                        <th>Напрямок</th>
+                        <th>Дата відправлення</th>
+                        <th>Час відправлення</th>
+                        <th>Вартість квитка</th>
+                        <th>Кількість вільних місць</th>
+                        <th>Зупинки</th>
+                    </tr>
+                    <xsl:for-each select="bus_schedule/route">
+                        <tr>
+                            <td><xsl:value-of select="departure"/></td>
+                            <td><xsl:value-of select="date"/></td>
+                            <td><xsl:value-of select="time"/></td>
+                            <td><xsl:value-of select="price"/></td>
+                            <td><xsl:value-of select="seats_left"/></td>
+                            <td>
+                                <xsl:for-each select="stops/stop">
+                                    <xsl:value-of select="."/> <br/>
+                                </xsl:for-each>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+            </body>
+        </html>
+    </xsl:template>
+</xsl:stylesheet>

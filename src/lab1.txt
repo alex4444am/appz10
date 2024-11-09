@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота 1</title>
+    <style>
+        .btn-container {
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .btn {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            overflow: auto;
+            z-index: 1;
+        }
+        pre {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h2>Лабораторна робота 1</h2>
+    <p><strong>Завдання:</strong> Опис завдання лабораторної роботи.</p>
+    <p><strong>Результати:</strong> Опис виконаних задач.</p>
+
+    <div class="btn-container">
+        <button class="btn" onclick="toggleContent('task')">Завдання</button>
+        <div id="task" class="content">
+            <p>Опис завдання лабораторної роботи.</p>
+        </div>
+    </div>
+
+    <div class="btn-container">
+        <button class="btn" onclick="toggleContent('results')">Результати</button>
+        <div id="results" class="content">
+            <p>Опис виконаних задач.</p>
+        </div>
+    </div>
+
+    <div class="btn-container">
+        <button class="btn" onclick="toggleContent('links')">Посилання на програмний код</button>
+        <div id="links" class="content">
+            <ul>
+                <li><a href="lab1.html" onclick="loadCode('src/lab1.txt')">HTML код</a></li>
+                <li><a href="src/styles.css" onclick="loadCode('src/styles.css')">CSS код</a></li>
+                <li><a href="src/script.js" onclick="loadCode('src/script.js')">JavaScript код</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleContent(id) {
+            // Закрити всі інші секції
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                if (content.id !== id) {
+                    content.style.display = 'none';
+                }
+            });
+
+            // Перемикаємо поточну секцію
+            const content = document.getElementById(id);
+            content.style.display = content.style.display === 'none' || content.style.display === '' ? 'block' : 'none';
+        }
+
+        function loadCode(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('codeDisplay').textContent = data;
+                })
+                .catch(error => console.error('Error loading code:', error));
+            return false; // Пропустити перехід за посиланням
+        }
+
+    </script>
+</body>
+</html>
