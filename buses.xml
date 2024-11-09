@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bus_schedule>
+    <route>
+        <departure>Київ - Львів</departure>
+        <date>2024-10-23</date>
+        <time>08:30</time>
+        <price>400</price>
+        <seats_left>15</seats_left>
+        <stops>
+            <stop>Житомир (10:00)</stop>
+            <stop>Рівне (12:00)</stop>
+        </stops>
+    </route>
+    <route>
+        <departure>Одеса - Харків</departure>
+        <date>2024-10-25</date>
+        <time>09:15</time>
+        <price>600</price>
+        <seats_left>8</seats_left>
+        <stops>
+            <stop>Миколаїв (10:45)</stop>
+            <stop>Запоріжжя (13:30)</stop>
+        </stops>
+    </route>
+    <route>
+        <departure>Харків - Дніпро</departure>
+        <date>2024-10-24</date>
+        <time>07:00</time>
+        <price>350</price>
+        <seats_left>20</seats_left>
+        <stops>
+            <stop>Лозова (08:30)</stop>
+        </stops>
+    </route>
+        <route>
+        <departure>Львів - Ужгород</departure>
+        <date>2024-10-25</date>
+        <time>10:00</time>
+        <price>250</price>
+        <seats_left>12</seats_left>
+        <stops>
+            <stop>Мукачево (11:30)</stop>
+        </stops>
+    </route>
+    <route>
+        <departure>Дніпро - Київ</departure>
+        <date>2024-10-23</date>
+        <time>06:45</time>
+        <price>500</price>
+        <seats_left>10</seats_left>
+        <stops>
+            <stop>Кременчук (09:15)</stop>
+        </stops>
+    </route>
+    <route>
+        <departure>Івано-Франківськ - Чернівці</departure>
+        <date>2024-10-23</date>
+        <time>14:00</time>
+        <price>150</price>
+        <seats_left>18</seats_left>
+        <stops>
+            <stop>Коломия (14:45)</stop>
+        </stops>
+    </route>
+    <route>
+        <departure>Запоріжжя - Полтава</departure>
+        <date>2024-10-24</date>
+        <time>11:30</time>
+        <price>320</price>
+        <seats_left>5</seats_left>
+        <stops>
+            <stop>Дніпро (12:30)</stop>
+        </stops>
+    </route>
+    <route>
+        <departure>Київ - Одеса</departure>
+        <date>2024-10-25</date>
+        <time>05:30</time>
+        <price>450</price>
+        <seats_left>7</seats_left>
+        <stops>
+            <stop>Умань (08:00)</stop>
+        </stops>
+    </route>
+    <route>
+        <departure>Луцьк - Тернопіль</departure>
+        <date>2024-10-24</date>
+        <time>13:00</time>
+        <price>220</price>
+        <seats_left>13</seats_left>
+        <stops>
+            <stop>Дубно (14:15)</stop>
+        </stops>
+    </route>
+    <route>
+        <departure>Чернігів - Суми</departure>
+        <date>2024-10-25</date>
+        <time>16:00</time>
+        <price>200</price>
+        <seats_left>9</seats_left>
+        <stops>
+            <stop>Конотоп (17:30)</stop>
+        </stops>
+    </route>
+
+</bus_schedule>

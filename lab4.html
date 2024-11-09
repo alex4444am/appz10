@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота 3</title>
+    <style>
+        .btn-container-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-container {
+            display: inline-block;
+        }
+        .btn {
+            display: block;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 200px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            display: none;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            overflow: auto;
+        }
+        .info-section {
+            margin-top: 10px;
+        }
+        pre {
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h2>Лабораторна робота 4</h2>
+    <div class="btn-container-wrapper">
+        <div class="btn-container">
+            <button class="btn" onclick="toggleContent('task1')">Завдання</button>
+            <div id="task1" class="content">
+                <button class="btn" onclick="toggleInfo('task1-execution')">Виконання</button>
+                <div id="task1-execution" class="info-section content">
+                    <ul>
+                        <li style="list-style-type: none;"><a href="Lab4_1.html" onclick="loadCode('Lab4_1.html')" style="text-decoration: none;">Виконання</a></li>
+                    </ul>
+                </div>
+                <button class="btn" onclick="toggleInfo('task1-condition')">Умова</button>
+                <div id="task1-condition" class="info-section content">
+                    <p>1. Створити сторінку з динамічним змістом "Перевірка значень,
+                        введених користувачем поля форми для реєстрації". Форма повинна
+                        містити поля «Ім'я», «Прізвище», «Найменування організації», «Номер
+                        кредитної картки», «Номер телефону», «Адреса електронної пошти»,
+                        кнопки «Надіслати» та «Очистити».<br>
+                        2. Здійснити перевірку заповненості даними всіх полів.<br>
+                        3. Побудувати шаблон для перевірки даних кредитної картки з
+                        обмеженням кількості спроб неправильного введення даних трьома.<br>
+                        4. Остання перевірка має контролювати структуру та вміст полів
+                        (правильність введення імені та прізвища, номери телефону, електронної
+                        адреси.).<br>
+                        12. Напишіть регулярний вираз, який знайде рядки наступного
+                        вигляду: по краях стоять літери 'a', а між ними - літера від a до f і A до Z.</p>
+                </div>
+                <button class="btn" onclick="toggleInfo('task1-code')">Код</button>
+                <div id="task1-code" class="info-section content">
+                    <ul>
+                        <li style="list-style-type: none;"><a href="src/lab4_1.txt" onclick="loadCode('src/lab4_1.txt')" style="text-decoration: none;">HTML</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleContent(id) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                if (content.id !== id) {
+                    content.style.display = 'none';
+                }
+            });
+
+            const content = document.getElementById(id);
+            content.style.display = content.style.display === 'none' || content.style.display === '' ? 'block' : 'none';
+        }
+
+        function toggleInfo(id) {
+            const info = document.getElementById(id);
+            info.style.display = info.style.display === 'none' || info.style.display === '' ? 'block' : 'none';
+        }
+
+        function loadCode(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    const displayId = url.includes('Lab2_1') ? 'codeDisplay' : 'codeDisplay2';
+                    document.getElementById(displayId).textContent = data;
+                })
+                .catch(error => console.error('Error loading code:', error));
+            return false; 
+        }
+    </script>
+</body>
+</html>

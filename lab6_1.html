@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery 1</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #animateBtn {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #mySquare {
+            width: 50px;
+            height: 50px;
+            background-color: brown;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <button id="animateBtn">Анімація</button>
+    <div id="mySquare"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#animateBtn').click(function() {
+                $('#mySquare').fadeOut(500, function() {
+                    $(this).css({ left: '+=50px' }).fadeIn(500, function() {
+                        $(this).animate({ width: '100px', height: '100px' }, 500, function() {
+                            $(this).animate({ top: '+=100px' }, 500, function() {
+                                $(this).css('background-color', 'red').fadeOut(1000, function() {
+                                    $(this).css({
+                                        width: '50px',
+                                        height: '50px',
+                                        backgroundColor: 'brown',
+                                    }).fadeIn(500);
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Палітра кольорів</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .color-block {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            cursor: pointer;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+<h2>Виберіть колір</h2>
+<p>Клацніть лівою кнопкою миші для зміни кольору тексту. Клацніть правою кнопкою миші для зміни фону.</p>
+
+<div class="color-grid" id="colorPalette"></div>
+
+<script>
+$(document).ready(function() {
+    const colors = [
+        "#FF6347", "#4682B4", "#32CD32", "#FFD700", "#4B0082", "#FF4500",
+        "#B22222", "#008080", "#DC143C", "#00BFFF", "#FF1493", "#696969",
+        "#7FFF00", "#20B2AA", "#ADFF2F", "#FF00FF", "#2E8B57", "#8B4513", 
+        "#A52A2A", "#00FF7F"
+    ];
+
+    let palette = $('#colorPalette');
+    colors.forEach(function(hexCode) {
+        let colorDiv = $('<div class="color-block"></div>');
+        colorDiv.css('background-color', hexCode);
+        palette.append(colorDiv);
+
+        colorDiv.on('mousedown', function(event) {
+            event.preventDefault();
+            if (event.button === 0) {
+                $('body').css('color', hexCode);
+            } else if (event.button === 2) {
+                $('body').css('background-color', hexCode);
+            }
+            alert("Обраний колір: " + hexCode);
+        });
+    });
+
+    $(document).on('contextmenu', function() {
+        return false;
+    });
+});
+</script>
+
+</body>
+</html>

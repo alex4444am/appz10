@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота 6</title>
+    <style>
+        .btn-container-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-container {
+            display: inline-block;
+        }
+        .btn {
+            display: block;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 200px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            display: none;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            overflow: auto;
+        }
+        .info-section {
+            margin-top: 10px;
+        }
+        pre {
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h2>Лабораторна робота 6</h2>
+    <div class="btn-container-wrapper">
+        <div class="btn-container">
+            <button class="btn" onclick="toggleContent('task1')">Завдання</button>
+            <div id="task1" class="content">
+                <button class="btn" onclick="toggleInfo('task1-execution')">Виконання</button>
+                <div id="task1-execution" class="info-section content">
+                    <ul>
+                        <li style="list-style-type: none;"><a href="lab6_1.html" onclick="loadCode('lab6_1.html')" style="text-decoration: none;">Виконання</a></li>
+                    </ul>
+                </div>
+                <button class="btn" onclick="toggleInfo('task1-condition')">Умова</button>
+                <div id="task1-condition" class="info-section content">
+                    <p> 1. Створити кнопку, на кліку на якій заданий елемент на сторінці
+поводитиметься таким чином:<br>
+1 Коричневий квадрат 50*50
+пікс.<br>
+
+1.Зникає<br>
+2. З&#39;являється на 50 пікселів правіше<br>
+3. Збільшується у 2 рази.<br>
+4. Рухається вниз на 100 пікселів.<br>
+5. Змінює колір на червоний<br>
+6. Плавно зникає.</p>
+                </div>
+                <button class="btn" onclick="toggleInfo('task1-code')">Код</button>
+                <div id="task1-code" class="info-section content">
+                    <ul>
+                        <li style="list-style-type: none;"><a href="src/lab6_1.txt" onclick="loadCode('src/lab6_1.txt')" style="text-decoration: none;">HTML</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleContent(id) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                if (content.id !== id) {
+                    content.style.display = 'none';
+                }
+            });
+
+            const content = document.getElementById(id);
+            content.style.display = content.style.display === 'none' || content.style.display === '' ? 'block' : 'none';
+        }
+
+        function toggleInfo(id) {
+            const info = document.getElementById(id);
+            info.style.display = info.style.display === 'none' || info.style.display === '' ? 'block' : 'none';
+        }
+
+        function loadCode(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    const displayId = url.includes('Lab2_1') ? 'codeDisplay' : 'codeDisplay2';
+                    document.getElementById(displayId).textContent = data;
+                })
+                .catch(error => console.error('Error loading code:', error));
+            return false; 
+        }
+    </script>
+</body>
+</html>

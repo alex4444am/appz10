@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Автобусний розклад</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #0055a5;
+        }
+        .controls {
+            margin-bottom: 15px;
+        }
+        #scheduleDisplay, #filteredDisplay, #sortedDisplay {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Розклад автобусних рейсів</h1>
+
+    <div class="controls">
+        <label for="selectedDate">Оберіть дату:</label>
+        <input type="date" id="selectedDate">
+        <button onclick="filterSchedule()">Фільтрувати</button>
+        <button onclick="sortScheduleByPrice()">Сортувати за ціною</button>
+    </div>
+
+    <section id="scheduleDisplay">
+        <h2>Повний розклад:</h2>
+    </section>
+
+    <section id="filteredDisplay">
+        <h2>Розклад для вибраної дати:</h2>
+    </section>
+
+    <section id="sortedDisplay">
+        <h2>Розклад, відсортований за ціною:</h2>
+    </section>
+
+    <script src="src/script_buses.js"></script>
+</body>
+</html>

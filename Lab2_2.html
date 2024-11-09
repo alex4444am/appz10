@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2 Завдання 2</title>
+    <style>
+        /* Стилі для зображень */
+        .image-container {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            margin: 20px auto;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .image {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            bottom: 0;
+            animation: moveUp 5s linear infinite;
+        }
+
+        /* Анімація руху знизу догори */
+        @keyframes moveUp {
+            0% {
+                bottom: 0;
+            }
+            100% {
+                bottom: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Завдання 2 Варіант 12</h1>
+
+    <!-- Контейнер для зображень -->
+    <div class="image-container">
+        <img class="image" src="img/image1.png" alt="Image 1">
+    </div>
+    <script>
+        // Попереднє завантаження зображень
+        const images = ['image1.png'];
+
+        images.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+        });
+    </script>
+
+</body>
+</html>

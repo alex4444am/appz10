@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2 - Меню</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+
+        }
+        .menu > li {
+            position: relative;
+        }
+        .menu > li > a {
+            display: block;
+            padding: 14px 20px;
+            color: brown;
+            text-decoration: none;
+        }
+        .menu > li > a:hover {
+            background-color: yellow;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .submenu li a {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Завдання 1 Варіант 5</h1>
+
+
+<ul class="menu">
+    <li>
+        <a href="#" onclick="toggleSubmenu(event, 'submenu1')">Лабораторна робота 1</a>
+        <ul class="submenu" id="submenu1">
+            <li><a href="#task1">Завдання 1</a></li>
+            <li><a href="#task2">Завдання 2</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#" onclick="toggleSubmenu(event, 'submenu2')">Лабораторна робота 2</a>
+        <ul class="submenu" id="submenu2">
+            <li><a href="#task3">Завдання 1</a></li>
+            <li><a href="#task4">Завдання 2</a></li>
+        </ul>
+    </li>
+</ul>
+
+<script>
+    function toggleSubmenu(event, submenuId) {
+        event.preventDefault();
+        const submenu = document.getElementById(submenuId);
+        const isVisible = submenu.style.display === 'block';
+
+        const allSubmenus = document.querySelectorAll('.submenu');
+        allSubmenus.forEach(sub => sub.style.display = 'none');
+
+        submenu.style.display = isVisible ? 'none' : 'block';
+    }
+</script>
+
+</body>
+</html>

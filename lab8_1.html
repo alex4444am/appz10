@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML-документ</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .images-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .images-container img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .xml-document {
+            width: 100%;
+            max-width: 1000px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            white-space: pre;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="xml-document">
+        <h1>XML Schema</h1>
+        <p>busSchedule: корінь документа, що містить кілька bus.<br>
+            busType: опис автобуса, включає route, stops, departureDate, departureTime, ticketPrice, availableSeats. Має атрибути busID та routeType (тип маршруту: express або regular).<br>
+            stopType: зупинки на маршруті, які можуть повторюватися.<br></p>
+
+
+<pre>
+    &lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+    &lt;xs:element name="busSchedule"&gt;
+      &lt;xs:complexType&gt;
+        &lt;xs:sequence&gt;
+          &lt;xs:element name="bus" type="xs:busType" minOccurs="1" maxOccurs="unbounded"/&gt;
+        &lt;/xs:sequence&gt;
+      &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;
+  
+    &lt;xs:complexType name="busType"&gt;
+      &lt;xs:sequence&gt;
+        &lt;xs:element name="route" type="xs:string"/&gt;
+        &lt;xs:element name="stops"&gt;
+          &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+              &lt;xs:element name="stop" type="xs:string" maxOccurs="unbounded"/&gt;
+            &lt;/xs:sequence&gt;
+          &lt;/xs:complexType&gt;
+        &lt;/xs:element&gt;
+        &lt;xs:element name="departureDate" type="xs:string"/&gt;
+        &lt;xs:element name="departureTime" type="xs:string"/&gt;
+        &lt;xs:element name="ticketPrice" type="xs:decimal"/&gt;
+        &lt;xs:element name="availableSeats" type="xs:int"/&gt;
+      &lt;/xs:sequence&gt;
+      &lt;xs:attribute name="busID" type="xs:ID" use="required"/&gt;
+      &lt;xs:attribute name="routeType" type="xs:string" use="required"/&gt;
+    &lt;/xs:complexType&gt;
+  
+    &lt;xs:complexType name="stopType"&gt;
+      &lt;xs:sequence&gt;
+        &lt;xs:element name="stop" type="xs:string" maxOccurs="unbounded"/&gt;
+      &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;
+  
+  &lt;/xs:schema&gt;  
+
+</pre>
+<h1>DTD-схема</h1>
+<p>busSchedule: головний елемент, що містить елементи bus.<br>
+    bus: включає елементи route, stops, departureDate, departureTime, ticketPrice, availableSeats.<br>    
+    route: напрямок автобусу, визначений через атрибут type (express або regular).<br>    
+    stops: зупинки, перераховані через stop.<br>    
+    departureDate: дата відправлення у форматі YYYY-MM-DD.<br>    
+    ticketPrice: вартість квитка, з можливістю вказати валюту (USD або UAH).<br>    
+    availableSeats: кількість вільних місць, зазначена через атрибут maxSeats.</p>
+
+
+<pre>
+    &lt;!DOCTYPE busSchedule [
+    &lt;!ELEMENT busSchedule (bus+)>
+    &lt;!ELEMENT bus (route, stops, departureDate, departureTime, ticketPrice, availableSeats)>
+    
+    &lt;!ELEMENT route (#PCDATA)>
+    &lt;!ELEMENT stops (stop+)>
+    &lt;!ELEMENT stop (#PCDATA)>
+    
+    &lt;!ELEMENT departureDate (#PCDATA)>
+    &lt;!ELEMENT departureTime (#PCDATA)>
+    &lt;!ELEMENT ticketPrice (#PCDATA)>
+    &lt;!ELEMENT availableSeats (#PCDATA)>
+    
+    &lt;!ATTLIST bus busID ID #REQUIRED>
+    &lt;!ATTLIST route type (express|regular) #REQUIRED>
+    &lt;!ATTLIST departureDate format (YYYY-MM-DD) #REQUIRED>
+    &lt;!ATTLIST ticketPrice currency (USD|UAH) #IMPLIED>
+    &lt;!ATTLIST availableSeats maxSeats CDATA #REQUIRED>
+]>
+
+</pre>
+
+    </div>
+</body>
+</html>
